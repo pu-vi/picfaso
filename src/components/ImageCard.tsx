@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { useState } from "react";
 import { ImageRecord } from "@/types/image";
+import UrlCopyField from "./UrlCopyField";
 
 interface ImageCardProps {
   image: ImageRecord;
@@ -73,61 +74,27 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
               </button>
             </div>
 
-            <div className="space-y-2">
+            <div className="space-y-3">
               {image.imgbb?.image && (
-                <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                  <span className="text-sm font-medium">IMGBB:</span>
-                  <div className="flex gap-2">
-                    <span className="text-blue-600 text-sm truncate max-w-xs">
-                      {image.imgbb.image}
-                    </span>
-                    <button
-                      onClick={() =>
-                        image.imgbb?.image && copyToClipboard(image.imgbb.image)
-                      }
-                      className="bg-gray-500 hover:text-blue-300 text-white px-2 py-1 rounded text-xs"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
+                <UrlCopyField
+                  label="IMGBB"
+                  url={image.imgbb.image}
+                  onCopy={copyToClipboard}
+                />
               )}
               {image.freeimage?.image && (
-                <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                  <span className="text-sm font-medium">FreeImage:</span>
-                  <div className="flex gap-2">
-                    <span className="text-blue-600 text-sm truncate max-w-xs">
-                      {image.freeimage.image}
-                    </span>
-                    <button
-                      onClick={() =>
-                        image.freeimage?.image &&
-                        copyToClipboard(image.freeimage.image)
-                      }
-                      className="bg-gray-500 text-white px-2 py-1 rounded text-xs"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
+                <UrlCopyField
+                  label="FreeImage"
+                  url={image.freeimage.image}
+                  onCopy={copyToClipboard}
+                />
               )}
               {image.backup?.path && (
-                <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
-                  <span className="text-sm font-medium">Backup:</span>
-                  <div className="flex gap-2">
-                    <span className="text-blue-600 text-sm truncate max-w-xs">
-                      {image.backup.path}
-                    </span>
-                    <button
-                      onClick={() =>
-                        image.backup?.path && copyToClipboard(image.backup.path)
-                      }
-                      className="bg-gray-500 text-white px-2 py-1 rounded text-xs"
-                    >
-                      Copy
-                    </button>
-                  </div>
-                </div>
+                <UrlCopyField
+                  label="Backup"
+                  url={image.backup.path}
+                  onCopy={copyToClipboard}
+                />
               )}
             </div>
           </div>
