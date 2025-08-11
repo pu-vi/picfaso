@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Toast from "@/components/Toast";
 import { ImageRecord } from "@/types/image";
+import ImageCard from "@/components/ImageCard";
 
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -47,7 +48,7 @@ export default function Home() {
         body: formData
       });
 
-      const result = await response.json();
+      await response.json();
 
       if (response.ok) {
         setSelectedFile(null);
@@ -118,17 +119,14 @@ export default function Home() {
           <div className="mt-12">
             <h2 className="text-xl font-semibold mb-9">Recent Uploads</h2>
             <div className="grid grid-cols-3 gap-4">
-              {recentImages.map((img, index) => {
+              {recentImages.map((img) => {
                 const imageUrl =
                   img.freeimage?.thumb || img.backup?.path || img.imgbb?.image;
                 return imageUrl ? (
-                  <Image
-                    key={index}
-                    src={imageUrl}
-                    alt={`Upload ${index + 1}`}
-                    width={99}
-                    height={99}
-                    className="rounded-lg object-cover"
+                  <ImageCard
+                    key={img.imageId}
+                    imageId={img.imageId}
+                    url={imageUrl}
                   />
                 ) : null;
               })}
