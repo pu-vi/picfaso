@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Album } from "@/types/album";
 import AlbumForm from "@/components/AlbumForm";
 import Image from "next/image";
+import Link from "next/link";
 import Toast from "@/components/Toast";
 
 export default function AlbumsPage() {
@@ -88,9 +89,10 @@ export default function AlbumsPage() {
           <>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {albums.map((album, index) => (
-                <div
+                <Link
                   key={album.albumId || index}
-                  className="border-2 border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer"
+                  href={`/album/${album.albumId || album._id}`}
+                  className="block border-2 border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer"
                 >
                   {album.coverImage ? (
                     <Image
@@ -112,7 +114,7 @@ export default function AlbumsPage() {
                   <p className="text-xs text-gray-500">
                     {album.images.length} images
                   </p>
-                </div>
+                </Link>
               ))}
             </div>
 
