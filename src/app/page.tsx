@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 import Toast from "@/components/Toast";
 import { ImageRecord } from "@/types/image";
 import ImageCard from "@/components/ImageCard";
@@ -123,11 +122,7 @@ export default function Home() {
                 const imageUrl =
                   img.freeimage?.thumb || img.backup?.path || img.imgbb?.image;
                 return imageUrl ? (
-                  <ImageCard
-                    key={img.imageId}
-                    imageId={img.imageId}
-                    url={imageUrl}
-                  />
+                  <ImageCard key={img.imageId} image={img} />
                 ) : null;
               })}
             </div>
