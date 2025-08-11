@@ -2,6 +2,13 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { Album } from "@/types/album";
 
+/**
+ * GET /api/albums
+ * Retrieves paginated list of albums sorted by creation date (newest first)
+ * 
+ * @param request - Contains page and limit query parameters
+ * @returns Paginated albums list with pagination metadata
+ */
 export async function GET(request: NextRequest) {
   try {
     const { searchParams } = new URL(request.url);
@@ -37,6 +44,13 @@ export async function GET(request: NextRequest) {
   }
 }
 
+/**
+ * POST /api/albums
+ * Creates a new album with validation
+ * 
+ * @param request - Contains album data (label, description, coverImage)
+ * @returns Created album with generated ID or validation error
+ */
 export async function POST(request: NextRequest) {
   try {
     const { label, description, coverImage } = await request.json();
@@ -49,7 +63,7 @@ export async function POST(request: NextRequest) {
     }
 
     const db = await connectToDatabase();
-    const album: Omit<Album, "albumId"> = {
+    const album = {
       label: label.trim(),
       description: description.trim(),
       coverImage,

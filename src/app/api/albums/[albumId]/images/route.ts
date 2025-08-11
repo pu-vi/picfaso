@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
+/**
+ * POST /api/albums/[albumId]/images
+ * Adds multiple images to an existing album (prevents duplicates)
+ * 
+ * @param request - Contains imageIds array in request body
+ * @param params - Contains albumId from URL parameters
+ * @returns Success confirmation or error message
+ * @note Uses $addToSet to automatically prevent duplicate image IDs
+ */
 export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ albumId: string }> }

@@ -2,6 +2,13 @@ import { NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { ImageRecord } from "@/types/image";
 
+/**
+ * GET /api/recent-uploads
+ * Retrieves paginated list of images sorted by upload date (newest first)
+ * 
+ * @param request - Contains page and limit query parameters
+ * @returns Paginated images list with pagination metadata
+ */
 export async function GET(request: Request) {
   try {
     const { searchParams } = new URL(request.url);

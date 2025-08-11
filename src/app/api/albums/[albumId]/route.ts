@@ -2,6 +2,14 @@ import { NextRequest, NextResponse } from "next/server";
 import { connectToDatabase } from "@/lib/mongodb";
 import { ObjectId } from "mongodb";
 
+/**
+ * GET /api/albums/[albumId]
+ * Retrieves album details with paginated images
+ * 
+ * @param request - Contains page and limit query parameters
+ * @param params - Contains albumId from URL parameters
+ * @returns Album details with paginated images and pagination info
+ */
 export async function GET(
   request: NextRequest,
   { params }: { params: Promise<{ albumId: string }> }
