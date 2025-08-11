@@ -1,12 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Image from "next/image";
+import Toast from "@/components/Toast";
+import { ImageRecord } from "@/types/image";
 
 export default function Home() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [uploadedUrl, setUploadedUrl] = useState<string | null>(null);
+  const [showToast, setShowToast] = useState(false);
+  const [recentImages, setRecentImages] = useState<ImageRecord[]>([]);
+
+  useEffect(() => {
+    fetchRecentImages();
+  }, []);
+
+  const fetchRecentImages = async () => {
+    try {
+      const response = await fetch("/api/recent-uploads");
+      const result = await response.json();
+      if (response.ok) {
+        setRecentImages(result.images);
+      }
+    } catch (error) {
+      console.error("Failed to fetch recent images:", error);
+    }
+  };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0];
@@ -29,8 +48,11 @@ export default function Home() {
       });
 
       const result = await response.json();
+
       if (response.ok) {
-        setUploadedUrl(result.url);
+        setSelectedFile(null);
+        setShowToast(true);
+        fetchRecentImages();
       }
     } catch (error) {
       console.error("Upload failed:", error);
@@ -40,7 +62,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-8">
+    <div className="min-h-screen flex mt-9 justify-center">
       <div className="text-center">
         <h1 className="text-4xl font-bold mb-8">Picfaso</h1>
         <p className="text-gray-600 mb-8">Upload and organize your images</p>
@@ -92,18 +114,33 @@ export default function Home() {
           </div>
         )}
 
-        {uploadedUrl && (
-          <div className="mt-6 p-4 bg-blue-50 rounded-lg">
-            <p className="text-blue-700 mb-3">Upload successful!</p>
-            <Image
-              src={uploadedUrl}
-              alt="Uploaded"
-              width={300}
-              height={200}
-              className="max-w-xs mx-auto rounded-lg"
-            />
+        {recentImages.length > 0 && (
+          <div className="mt-12">
+            <h2 className="text-xl font-semibold mb-9">Recent Uploads</h2>
+            <div className="grid grid-cols-3 gap-4">
+              {recentImages.map((img, index) => {
+                const imageUrl =
+                  img.freeimage?.thumb || img.backup?.path || img.imgbb?.image;
+                return imageUrl ? (
+                  <Image
+                    key={index}
+                    src={imageUrl}
+                    alt={`Upload ${index + 1}`}
+                    width={99}
+                    height={99}
+                    className="rounded-lg object-cover"
+                  />
+                ) : null;
+              })}
+            </div>
           </div>
         )}
+
+        <Toast
+          message="Image uploaded successfully!"
+          show={showToast}
+          onClose={() => setShowToast(false)}
+        />
       </div>
     </div>
   );

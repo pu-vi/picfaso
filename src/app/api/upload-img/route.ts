@@ -5,6 +5,7 @@ import {
   extractPhpImageUrls
 } from "@/utils/json.response.format";
 import { connectToDatabase } from "@/lib/mongodb";
+import { ImageRecord } from "@/types/image";
 
 export async function POST(request: NextRequest) {
   try {
@@ -68,11 +69,13 @@ export async function POST(request: NextRequest) {
     }
 
     const db = await connectToDatabase();
-    await db.collection('images').insertOne({
-      imageId: randomName.split('.')[0],
+    const imageRecord: Omit<ImageRecord, "_id"> = {
+      imageId: randomName.split(".")[0],
       uploadedAt: new Date(),
       ...uploads
-    });
+    };
+
+    await db.collection("images").insertOne(imageRecord);
 
     return NextResponse.json({ uploads });
   } catch {
