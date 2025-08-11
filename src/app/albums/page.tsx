@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { Album } from "@/types/album";
 import AlbumForm from "@/components/AlbumForm";
 import Image from "next/image";
+import Toast from "@/components/Toast";
 
 export default function AlbumsPage() {
   const [albums, setAlbums] = useState<Album[]>([]);
@@ -11,6 +12,8 @@ export default function AlbumsPage() {
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(true);
   const [showCreateForm, setShowCreateForm] = useState(false);
+  const [showToast, setShowToast] = useState(false);
+  const [toastMessage, setToastMessage] = useState('');
 
   const fetchAlbums = async (page: number) => {
     setLoading(true);
@@ -33,6 +36,12 @@ export default function AlbumsPage() {
     description: string;
     coverImage: string;
   }) => {
+    if (!albumData.label.trim() || !albumData.description.trim()) {
+      setToastMessage('Album name and description are required');
+      setShowToast(true);
+      return;
+    }
+    
     try {
       const response = await fetch("/api/albums", {
         method: "POST",
@@ -130,6 +139,13 @@ export default function AlbumsPage() {
             </div>
           </>
         )}
+        
+        <Toast
+          message={toastMessage}
+          show={showToast}
+          onClose={() => setShowToast(false)}
+          type="error"
+        />
       </div>
     </div>
   );

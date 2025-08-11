@@ -41,10 +41,17 @@ export async function POST(request: NextRequest) {
   try {
     const { label, description, coverImage } = await request.json();
 
+    if (!label?.trim() || !description?.trim()) {
+      return NextResponse.json(
+        { error: "Album name and description are required" },
+        { status: 400 }
+      );
+    }
+
     const db = await connectToDatabase();
     const album: Omit<Album, "albumId"> = {
-      label,
-      description,
+      label: label.trim(),
+      description: description.trim(),
       coverImage,
       images: [],
       createdAt: new Date(),
