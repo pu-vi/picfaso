@@ -14,11 +14,15 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
   const primaryUrl =
     image.freeimage?.image || image.imgbb?.image || image.backup?.path;
 
-  const handleDownload = (url: string, filename: string) => {
+  const handleDownload = () => {
     const link = document.createElement("a");
-    link.href = url;
-    link.download = filename;
+    link.href = primaryUrl!;
+    link.download = `${image.imageId}.jpg`;
     link.click();
+  };
+
+  const copyToClipboard = (url: string) => {
+    navigator.clipboard.writeText(url);
   };
 
   return (
@@ -60,28 +64,30 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
               className="rounded-lg mb-4 mx-auto"
             />
 
+            <div className="mb-4">
+              <button
+                onClick={handleDownload}
+                className="bg-green-500 text-white px-4 py-2 rounded hover:bg-green-600"
+              >
+                Download Image
+              </button>
+            </div>
+
             <div className="space-y-2">
               {image.imgbb?.image && (
                 <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
                   <span className="text-sm font-medium">IMGBB:</span>
                   <div className="flex gap-2">
-                    <a
-                      href={image.imgbb.image}
-                      target="_blank"
-                      className="text-blue-600 text-sm truncate max-w-xs"
-                    >
+                    <span className="text-blue-600 text-sm truncate max-w-xs">
                       {image.imgbb.image}
-                    </a>
+                    </span>
                     <button
                       onClick={() =>
-                        handleDownload(
-                          image.imgbb.image!,
-                          `${image.imageId}_imgbb.jpg`
-                        )
+                        image.imgbb?.image && copyToClipboard(image.imgbb.image)
                       }
-                      className="bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                      className="bg-gray-500 hover:text-blue-300 text-white px-2 py-1 rounded text-xs"
                     >
-                      Download
+                      Copy
                     </button>
                   </div>
                 </div>
@@ -90,49 +96,35 @@ const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
                 <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
                   <span className="text-sm font-medium">FreeImage:</span>
                   <div className="flex gap-2">
-                    <a
-                      href={image.freeimage.image}
-                      target="_blank"
-                      className="text-blue-600 text-sm truncate max-w-xs"
-                    >
+                    <span className="text-blue-600 text-sm truncate max-w-xs">
                       {image.freeimage.image}
-                    </a>
+                    </span>
                     <button
                       onClick={() =>
-                        handleDownload(
-                          image.freeimage.image!,
-                          `${image.imageId}_freeimage.jpg`
-                        )
+                        image.freeimage?.image &&
+                        copyToClipboard(image.freeimage.image)
                       }
-                      className="bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                      className="bg-gray-500 text-white px-2 py-1 rounded text-xs"
                     >
-                      Download
+                      Copy
                     </button>
                   </div>
                 </div>
               )}
-
               {image.backup?.path && (
                 <div className="flex items-center justify-between bg-gray-50 p-2 rounded">
                   <span className="text-sm font-medium">Backup:</span>
                   <div className="flex gap-2">
-                    <a
-                      href={image.backup.path}
-                      target="_blank"
-                      className="text-blue-600 text-sm truncate max-w-xs"
-                    >
+                    <span className="text-blue-600 text-sm truncate max-w-xs">
                       {image.backup.path}
-                    </a>
+                    </span>
                     <button
                       onClick={() =>
-                        handleDownload(
-                          image.backup.path!,
-                          image.backup.filename || `${image.imageId}_backup.jpg`
-                        )
+                        image.backup?.path && copyToClipboard(image.backup.path)
                       }
-                      className="bg-blue-500 text-white px-2 py-1 rounded text-xs"
+                      className="bg-gray-500 text-white px-2 py-1 rounded text-xs"
                     >
-                      Download
+                      Copy
                     </button>
                   </div>
                 </div>
