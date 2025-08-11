@@ -90,8 +90,8 @@ export default function AlbumsPage() {
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
               {albums.map((album, index) => (
                 <Link
-                  key={album.albumId || index}
-                  href={`/album/${album.albumId || album._id}`}
+                  key={album._id || index}
+                  href={`/album/${album._id}`}
                   className="block border-2 border-gray-200 rounded-lg p-4 hover:border-gray-300 transition-colors cursor-pointer"
                 >
                   {album.coverImage ? (
