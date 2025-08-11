@@ -4,6 +4,7 @@ import {
   extractIbbImageUrls,
   extractPhpImageUrls
 } from "@/utils/json.response.format";
+import { connectToDatabase } from "@/lib/mongodb";
 
 export async function POST(request: NextRequest) {
   try {
@@ -66,7 +67,12 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    console.log("Uploads:", uploads);
+    const db = await connectToDatabase();
+    await db.collection('images').insertOne({
+      imageId: randomName.split('.')[0],
+      uploadedAt: new Date(),
+      ...uploads
+    });
 
     return NextResponse.json({ uploads });
   } catch {
