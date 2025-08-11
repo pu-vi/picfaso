@@ -1,4 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
+import {
+  extractFreeImageHostUrls,
+  extractIbbImageUrls,
+  extractPhpImageUrls
+} from "@/utils/json.response.format";
 
 export async function POST(request: NextRequest) {
   try {
@@ -41,23 +46,25 @@ export async function POST(request: NextRequest) {
       phpResponse.json()
     ]);
 
-    console.log(phpResult);
-
     const uploads = {
-      imgbb: imgbbResponse.ok ? imgbbResult.data.url : null,
-      freeimage: freeImageResponse.ok ? freeImageResult.image.url : null,
-      php: phpResponse.ok ? phpResult.url : null
+      imgbb: imgbbResponse.ok ? extractIbbImageUrls(imgbbResult) : null,
+      freeimage: freeImageResponse.ok
+        ? extractFreeImageHostUrls(freeImageResult)
+        : null,
+      backup: phpResponse.ok ? extractPhpImageUrls(phpResult) : null
     };
 
-    if (!uploads.imgbb && !uploads.freeimage && !uploads.php) {
+    if (!uploads.imgbb && !uploads.freeimage && !uploads.backup) {
       return NextResponse.json(
         { error: "All uploads (IMGBB, FreeImage, PHP) failed" },
         { status: 500 }
       );
     }
 
+    console.log("Uploads:", uploads);
+
     return NextResponse.json({ uploads });
-  } catch (error) {
+  } catch {
     return NextResponse.json({ error: "Server error" }, { status: 500 });
   }
 }
