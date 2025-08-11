@@ -1,6 +1,7 @@
 import { useState } from "react";
 
 interface AlbumFormProps {
+  closeForm: () => void;
   createAlbum: (albumData: {
     label: string;
     description: string;
@@ -8,7 +9,7 @@ interface AlbumFormProps {
   }) => void;
 }
 
-const AlbumForm: React.FC<AlbumFormProps> = ({ createAlbum }) => {
+const AlbumForm: React.FC<AlbumFormProps> = ({ closeForm, createAlbum }) => {
   const [formData, setFormData] = useState({
     label: "",
     description: "",
@@ -47,13 +48,16 @@ const AlbumForm: React.FC<AlbumFormProps> = ({ createAlbum }) => {
         />
         <div className="flex gap-2">
           <button
-            type="submit"
+            onClick={() => createAlbum(formData)}
             className="bg-green-500 text-white px-4 py-2 rounded"
           >
             Create
           </button>
           <button
-            onClick={() => createAlbum(formData)}
+            onClick={() => {
+              setFormData({ label: "", description: "", coverImage: "" });
+              closeForm();
+            }}
             className="bg-gray-500 text-white px-4 py-2 rounded"
           >
             Cancel

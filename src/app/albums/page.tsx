@@ -66,7 +66,12 @@ export default function AlbumsPage() {
           </button>
         </div>
 
-        {showCreateForm && <AlbumForm createAlbum={createAlbum} />}
+        {showCreateForm && (
+          <AlbumForm
+            createAlbum={createAlbum}
+            closeForm={() => setShowCreateForm(false)}
+          />
+        )}
 
         {loading ? (
           <div className="text-center">Loading...</div>
