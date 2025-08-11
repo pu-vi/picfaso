@@ -1,36 +1,76 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Picfaso - Image Management Platform
+
+Picfaso is a modern web application for uploading, organizing, and managing your images with multi-platform backup and album organization capabilities.
+
+## Features
+
+### 🖼️ Image Upload & Management
+
+- **Multi-Platform Upload**: Automatically uploads images to PHP server for redundancy
+- **Randomized Filenames**: Ensures unique file names to prevent conflicts
+- **Image Gallery**: Browse all uploaded images with pagination (20 images per page)
+- **Lightbox View**: Click any image to view in full size with direct URLs and download options
+
+### 📁 Album Organization
+
+- **Create Albums**: Organize images into custom albums with names, descriptions, and cover images
+- **Bulk Selection**: Select multiple images and add them to albums efficiently
+- **Album Gallery**: Browse albums with cover images and image counts
+- **Album Details**: View album contents with pagination
+
+### 🔗 Multi-Platform Integration
+
+- **PHP Backup Server**: Additional backup storage option
+- **MongoDB Storage**: Metadata and album information storage
 
 ## Getting Started
 
-First, run the development server:
+### Prerequisites
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- Node.js 18+ and npm
+- MongoDB database
+- PHP server for backup storage
+
+## Usage
+
+### Uploading Images
+
+1. Go to the home page
+2. Select an image file (PNG, JPG, GIF up to 10MB)
+3. Click "Upload" - the image will be uploaded to all configured platforms
+4. View recent uploads in the grid below
+
+### Managing Albums
+
+1. Navigate to "Albums" in the header
+2. Click "Create Album" to make a new album
+3. Go to "Images" to select and add images to albums
+4. Use bulk selection and "Add to Album" feature
+
+### Viewing Images
+
+- **All Images**: Browse all uploaded images with pagination
+- **Album View**: Click any album to see its contents
+- **Lightbox**: Click images for full-size view with download options
+
+## Technology Stack
+
+- **Frontend**: Next.js 14, React, TypeScript, Tailwind CSS
+- **Backend**: Next.js API Routes, MongoDB
+- **Image Hosting**: Custom PHP Server
+- **Database**: MongoDB for metadata and album organization
+
+## Project Structure
+
+```
+src/
+├── app/                 # Next.js app router pages
+├── components/          # Reusable React components
+├── types/              # TypeScript type definitions
+├── lib/                # Database and utility functions
+└── utils/              # Helper functions and formatters
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Contributing
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+This project is designed for personal image management with multi-platform redundancy. Feel free to fork and customize for your needs.

@@ -1,4 +1,5 @@
 export interface ImageRecord {
+  _id: string;
   imageId: string;
   uploadedAt: Date;
   imgbb: {

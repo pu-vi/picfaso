@@ -7,6 +7,14 @@ import {
 import { connectToDatabase } from "@/lib/mongodb";
 import { ImageRecord } from "@/types/image";
 
+/**
+ * POST /api/upload-img
+ * Uploads image to multiple platforms simultaneously (IMGBB, FreeImage, PHP backup)
+ * Generates random filename and stores metadata in MongoDB
+ * 
+ * @param request - Contains image file in FormData
+ * @returns Upload results from all platforms with URLs or error message
+ */
 export async function POST(request: NextRequest) {
   try {
     const formData = await request.formData();
