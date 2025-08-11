@@ -32,5 +32,5 @@ export const extractPhpImageUrls = ({
   path?: string;
 }): { filename: string; path: string } => ({
   filename,
-  path
+  path: `${process.env.PHP_UPLOAD_URL}${path}`
 });

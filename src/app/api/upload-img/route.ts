@@ -14,16 +14,21 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: "No image provided" }, { status: 400 });
     }
 
+    const randomName = `img_${Date.now()}_${Math.random()
+      .toString(36)
+      .substring(2)}.${file.name.split(".").pop()}`;
+    const renamedFile = new File([file], randomName, { type: file.type });
+
     const imgbbFormData = new FormData();
     imgbbFormData.append("key", process.env.IMGBB_API_KEY!);
-    imgbbFormData.append("image", file);
+    imgbbFormData.append("image", renamedFile);
 
     const freeImageFormData = new FormData();
     freeImageFormData.append("key", process.env.FREEIMAGE_API_KEY!);
-    freeImageFormData.append("source", file);
+    freeImageFormData.append("source", renamedFile);
 
     const phpFormData = new FormData();
-    phpFormData.append("file", file);
+    phpFormData.append("file", renamedFile);
 
     const [imgbbResponse, freeImageResponse, phpResponse] = await Promise.all([
       fetch(process.env.IMGBB_API_URL!, {
@@ -34,7 +39,7 @@ export async function POST(request: NextRequest) {
         method: "POST",
         body: freeImageFormData
       }),
-      fetch(process.env.PHP_UPLOAD_URL!, {
+      fetch(`${process.env.PHP_UPLOAD_URL}/upload.php`!, {
         method: "POST",
         body: phpFormData
       })
