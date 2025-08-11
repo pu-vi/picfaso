@@ -1,5 +1,5 @@
 export interface Album {
-  albumId?: string;
+  _id?: string;
   label: string;
   description: string;
   coverImage: string;
