@@ -1,0 +1,25 @@
+{
+    "name": "Picfaso - Image Management Platform",
+    "short_name": "Picfaso",
+    "description": "Upload, organize, and manage your images with multi-platform backup and album organization",
+    "start_url": "/",
+    "display": "standalone",
+    "background_color": "#ffffff",
+    "theme_color": "#2563eb",
+    "orientation": "portrait-primary",
+    "icons": [
+        {
+            "src": "/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable any"
+        },
+        {
+            "src": "/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "categories": ["photography", "utilities"]
+}
