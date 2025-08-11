@@ -9,6 +9,7 @@ interface ImageCardProps {
 
 const ImageCard: React.FC<ImageCardProps> = ({ image }) => {
   const [showLightbox, setShowLightbox] = useState(false);
+  console.log(image);
   const thumb =
     image.imgbb?.thumb || image.freeimage?.thumb || image.backup?.path;
 
